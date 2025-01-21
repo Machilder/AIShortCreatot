@@ -54,3 +54,6 @@ logs/
 .DS_Store      # Mac
 Thumbs.db      # Windows
 desktop.ini    # Windows
+
+models/
+MODELS/

@@ -24,18 +24,18 @@ class VideoService:
         try:
             logger.info(f"Downloading video from {url}")
             
-            # 動画IDを抽出（簡易的な実装）
+            # 動画IDを抽出
             video_id = url.split('watch?v=')[-1]
-            output_path = os.path.join(self.temp_dir, f"{video_id}.mp4")
+            # Pathオブジェクトを使用して正規化されたパスを生成
+            output_path = str(Path(self.temp_dir).resolve() / f"{video_id}.mp4")
             
             ydl_opts = {
-                'format': 'best[ext=mp4]',  # mp4形式で最高品質
-                'outtmpl': output_path,     # 出力パス
-                'quiet': True,              # 進行状況の出力を制限
-                'no_warnings': True,        # 警告を非表示
+                'format': 'best[ext=mp4]',
+                'outtmpl': output_path,
+                'quiet': True,
+                'no_warnings': True,
             }
             
-            # yt-dlpの処理を非同期的に実行
             import asyncio
             loop = asyncio.get_event_loop()
             await loop.run_in_executor(None, lambda: self._download_with_ytdlp(url, ydl_opts))
